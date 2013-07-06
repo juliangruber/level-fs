@@ -1,6 +1,5 @@
 var test = require('tape');
 var level = require('level-test')({ mem: true });
-var db = level('read-file');
 var levelFS = require('..');
 
 test('simple', function (t) {
