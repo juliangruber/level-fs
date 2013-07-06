@@ -16,7 +16,6 @@
     "level-store": "~3.4.4"
   },
   "devDependencies": {
-    "tap": "*",
     "tape": "~1.0.4",
     "level-test": "~1.3.0"
   },
