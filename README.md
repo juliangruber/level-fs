@@ -107,6 +107,7 @@ Streaming access to stored data is provided through
 * error codes
 * empty but existing files
 * modes
+* byte indexes for offsets
 
 ## Installation
 
