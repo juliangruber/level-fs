@@ -54,10 +54,12 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
   if (typeof opts == 'string') opts = { encoding: opts };
   if (typeof opts == 'undefined') opts = {};
 
+  var encoding = opts.encoding || 'utf8';
+  var flag = opts.flag || 'w';
+
   var m = this._getLevel(filename);
-  var ws = Store(m.level).createWriteStream(m.file, {
-    encoding: opts.encoding || 'utf8'
-  });
+  var ws = Store(m.level).createWriteStream(m.file, { encoding: encoding });
+
   var called = false;
   function done (err) {
     if (called) return;
@@ -66,6 +68,7 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
   }
   ws.on('close', done);
   ws.on('error', done);
+
   ws.write(data);
   ws.end();
 };

@@ -26,6 +26,7 @@ Streaming access to stored data is provided through
 ## Implemented
 
 * `readFile(filename, [options], callback)`
+* `writeFile(filename, data, [options], callback)`
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
 * `Stats#isSymbolicLink()`
@@ -93,7 +94,6 @@ Streaming access to stored data is provided through
 * `read(fd, buffer, offset, length, position, callback)`
 * `readSync(fd, buffer, offset, length, position)`
 * `readFileSync(filename, [options])`
-* `writeFile(filename, data, [options], callback)`
 * `writeFileSync(filename, data, [options])`
 * `appendFile(filename, data, [options], callback)`
 * `appendFileSync(filename, data, [options])`
