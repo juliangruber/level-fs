@@ -17,6 +17,10 @@ fs.readFile('/etc/passwd', function (err, data) {
 });
 ```
 
+## How it works
+
+Paths are sublevels, so `/a/b/c` is basically `db.sublevel('a').sublevel('b').get('c')`.
+
 ## Implemented
 
 * `readFile(filename, [options], callback)`
