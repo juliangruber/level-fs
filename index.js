@@ -1,4 +1,5 @@
 var SubLevel = require('level-sublevel');
+var Stats = require('./lib/stats');
 
 module.exports = fs;
 

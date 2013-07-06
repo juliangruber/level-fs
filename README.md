@@ -20,6 +20,11 @@ fs.readFile('/etc/passwd', function (err, data) {
 ## Implemented
 
 * `readFile(filename, [options], callback)`
+* `Stats#isBlockDevice()`
+* `Stats#isCharacterDevice()`
+* `Stats#isSymbolicLink()`
+* `Stats#isFIFI()`
+* `Stats#isSocket`
 
 ## ToDo
 
@@ -47,6 +52,9 @@ fs.readFile('/etc/passwd', function (err, data) {
 * `statSync(path)`
 * `lstatSync(path)`
 * `fstatSync(fd)`
+* `Stats.{dev,ino,mode,nlink,uid,gid,rdev,size,blksize,blocks,atime,mtime,ctime}`
+* `Stats#isFile()`
+* `Stats#isDirectory()`
 * `link(srcpath, dstpath, callback)`
 * `linkSync(srcpath, dstpath)`
 * `symlink(srcpath, dstpath, [type], callback)`
