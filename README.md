@@ -4,6 +4,19 @@
 node's [fs module](http://nodejs.org/api/fs.html) with
 [leveldb](https://github.com/rvagg/node-levelup) as backend.
 
+## Usage
+
+```js
+var level = require('level');
+var db = level(__dirname + '/db');
+var fs = require('level-fs')(db);
+
+fs.readFile('/etc/passwd', function (err, data) {
+  if (err) throw err;
+  console.log(data);
+});
+```
+
 ## Implemented
 
 ## ToDo
