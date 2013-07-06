@@ -22,8 +22,13 @@ fs.prototype.readFile = function (filename, opts, cb) {
     valueEncoding: encoding
   }, function (err, data) {
     if (err) {
-      if (err.name == 'NotFoundError' && /^(a|w)/.test(opts.flag)) {
-        cb(null, encoding == 'binary'? new Buffer('') : '');
+      if (err.name == 'NotFoundError') {
+        if (/^(a|w)/.test(opts.flag)) {
+          cb(null, encoding == 'binary'? new Buffer('') : '');
+        } else {
+          err.code = 'ENOENT';
+          cb(err);
+        }
       } else {
         cb(err);
       }

@@ -19,10 +19,11 @@ test('simple', function (t) {
 });
 
 test('non existant, bad flag', function (t) {
-  t.plan(2);
+  t.plan(3);
   var fs = levelFS(level());
   fs.readFile('foo', function (err, data) {
     t.ok(err);
+    t.equal(err.code, 'ENOENT');
     t.notOk(data);
   });
 });

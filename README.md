@@ -29,6 +29,7 @@ Paths are sublevels, so `/a/b/c` is basically `db.sublevel('a').sublevel('b').ge
 * `Stats#isSymbolicLink()`
 * `Stats#isFIFI()`
 * `Stats#isSocket`
+* error codes: `ENOENT`
 
 ## ToDo
 
