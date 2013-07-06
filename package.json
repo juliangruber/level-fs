@@ -12,7 +12,8 @@
     "test": "tape test/*.js"
   },
   "dependencies": {
-    "level-sublevel": "~4.7.1"
+    "level-sublevel": "~4.7.1",
+    "level-store": "~3.4.4"
   },
   "devDependencies": {
     "tap": "*",

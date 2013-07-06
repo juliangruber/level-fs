@@ -11,9 +11,9 @@ test('simple', function (t) {
   db.put('foo', Buffer('bar'), function (err) {
     t.error(err);
     fs.readFile('foo', function (err, data) {
-      t.error(err);
-      t.assert(Buffer.isBuffer(data));
-      t.equal(data.toString(), 'bar');
+      t.error(err, 'no error');
+      t.assert(Buffer.isBuffer(data), 'is buffer');
+      t.equal(data.toString(), 'bar', 'correct value');
     });
   });
 });
@@ -22,9 +22,9 @@ test('non existant, bad flag', function (t) {
   t.plan(3);
   var fs = levelFS(level());
   fs.readFile('foo', function (err, data) {
-    t.ok(err);
-    t.equal(err.code, 'ENOENT');
-    t.notOk(data);
+    t.ok(err, 'has error');
+    t.equal(err.code, 'ENOENT', 'error code');
+    t.notOk(data, 'no data');
   });
 });
 

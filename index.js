@@ -1,4 +1,5 @@
 var SubLevel = require('level-sublevel');
+var Store = require('level-store');
 var Stats = require('./lib/stats');
 
 module.exports = fs;
@@ -17,24 +18,31 @@ fs.prototype.readFile = function (filename, opts, cb) {
   }
 
   var encoding = opts.encoding || 'binary';
+  var flag = opts.flag || 'r';
   var m = this._getLevel(filename);
-  m.level.get(m.file, {
+  var data = [];
+
+  Store(m.level).createReadStream(m.file, {
     valueEncoding: encoding
-  }, function (err, data) {
-    if (err) {
-      if (err.name == 'NotFoundError') {
-        if (/^(a|w)/.test(opts.flag)) {
-          cb(null, encoding == 'binary'? new Buffer('') : '');
-        } else {
-          err.code = 'ENOENT';
-          cb(err);
-        }
-      } else {
-        cb(err);
-      }
-    } else {
-      cb(null, data);
+  })
+  .on('error', cb)
+  .on('data', function (d) {
+    data.push(d);
+  })
+  .on('end', function () {
+    if (!data.length && flag[0] == 'r') {
+      var err = new Error('file doesn\'t exist');
+      err.code = 'ENOENT';
+      return cb(err);
     }
+
+    var res;
+    if (encoding == 'binary') {
+      res = Buffer.concat(data);
+    } else {
+      res = data.join('');
+    }
+    cb(null, res);
   });
 };
 
