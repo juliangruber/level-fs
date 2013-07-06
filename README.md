@@ -89,6 +89,7 @@ fs.readFile('/etc/passwd', function (err, data) {
 * `existsSync(path)`
 * `createReadStream(path, [options])`
 * `createWriteStream(path, [options])`
+* error codes
 
 ## Limitations
 
