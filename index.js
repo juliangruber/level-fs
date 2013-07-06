@@ -12,10 +12,21 @@ fs.prototype.readFile = function (filename, opts, cb) {
     cb = opts;
     opts = {};
   }
+  var encoding = opts.encoding || 'binary';
   var m = this._getLevel(filename);
   m.level.get(m.file, {
-    valueEncoding: opts.encoding || 'binary'
-  }, cb);
+    valueEncoding: encoding
+  }, function (err, data) {
+    if (err) {
+      if (err.name == 'NotFoundError' && /^(a|w)/.test(opts.flag)) {
+        cb(null, encoding == 'binary'? new Buffer('') : '');
+      } else {
+        cb(err);
+      }
+    } else {
+      cb(null, data);
+    }
+  });
 };
 
 fs.prototype._getLevel = function (path) {

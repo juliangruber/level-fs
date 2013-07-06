@@ -19,6 +19,8 @@ fs.readFile('/etc/passwd', function (err, data) {
 
 ## Implemented
 
+* `readFile(filename, [options], callback)`
+
 ## ToDo
 
 * `rename(oldPath, newPath, callback)`
@@ -75,7 +77,6 @@ fs.readFile('/etc/passwd', function (err, data) {
 * `writeSync(fd, buffer, offset, length, position)`
 * `read(fd, buffer, offset, length, position, callback)`
 * `readSync(fd, buffer, offset, length, position)`
-* `readFile(filename, [options], callback)`
 * `readFileSync(filename, [options])`
 * `writeFile(filename, data, [options], callback)`
 * `writeFileSync(filename, data, [options])`
@@ -88,6 +89,10 @@ fs.readFile('/etc/passwd', function (err, data) {
 * `existsSync(path)`
 * `createReadStream(path, [options])`
 * `createWriteStream(path, [options])`
+
+## Limitations
+
+When opening a non-existing file with a flag like `w` or `a`, which should cause it to be created, it isn't, because we can't store empty strings in LevelDB. But, as soon as written to that file, it is created anyways.
 
 ## Installation
 
