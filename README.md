@@ -105,10 +105,8 @@ Streaming access to stored data is provided through
 * `createReadStream(path, [options])`
 * `createWriteStream(path, [options])`
 * error codes
-
-## Limitations
-
-When opening a non-existing file with a flag like `w` or `a`, which should cause it to be created, it isn't, because we can't store empty strings in LevelDB. But, as soon as written to that file, it is created anyways.
+* empty but existing files
+* modes
 
 ## Installation
 
