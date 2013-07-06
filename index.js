@@ -46,6 +46,26 @@ fs.prototype.readFile = function (filename, opts, cb) {
   });
 };
 
+fs.prototype.writeFile = function (filename, data, opts, cb) {
+  if (typeof opts == 'function') {
+    cb = opts;
+    opts = {};
+  }
+  if (!cb) cb = function () {};
+  var m = this._getLevel(filename);
+  var ws = Store(m.level).createWriteStream(m.file);
+  var called = false;
+  function done (err) {
+    if (called) return;
+    called = true;
+    cb(err);
+  }
+  ws.on('close', done);
+  ws.on('error', done);
+  ws.write(data);
+  ws.end();
+};
+
 fs.prototype.stat = function (path, cb) {
   var stat = new Stats();
   var m = this._getLevel(path);

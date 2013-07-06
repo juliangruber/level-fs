@@ -4,10 +4,9 @@ var levelFS = require('..');
 
 test('simple', function (t) {
   t.plan(4);
-  var db = level();
-  var fs = levelFS(db);
+  var fs = levelFS(level());
 
-  db.put('foo', Buffer('bar'), function (err) {
+  fs.writeFile('foo', new Buffer('bar'), function (err) {
     t.error(err);
     fs.readFile('foo', function (err, data) {
       t.error(err, 'no error');
@@ -38,10 +37,9 @@ test('non existant, good flag', function (t) {
 
 test('options string', function (t) {
   t.plan(4);
-  var db = level();
-  var fs = levelFS(db);
+  var fs = levelFS(level());
 
-  db.put('foo', 'bar', function (err) {
+  fs.writeFile('foo', 'bar', function (err) {
     t.error(err);
     fs.readFile('foo', 'utf8', function (err, data) {
       t.error(err);
