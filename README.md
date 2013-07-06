@@ -27,8 +27,10 @@ Paths are sublevels, so `/a/b/c` is basically `db.sublevel('a').sublevel('b').ge
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
 * `Stats#isSymbolicLink()`
-* `Stats#isFIFI()`
-* `Stats#isSocket`
+* `Stats#isFIFO()`
+* `Stats#isSocket()`
+* `Stats#isFile()`
+* `Stats#isDirectory()`
 * error codes: `ENOENT`
 
 ## ToDo
@@ -58,8 +60,6 @@ Paths are sublevels, so `/a/b/c` is basically `db.sublevel('a').sublevel('b').ge
 * `lstatSync(path)`
 * `fstatSync(fd)`
 * `Stats.{dev,ino,mode,nlink,uid,gid,rdev,size,blksize,blocks,atime,mtime,ctime}`
-* `Stats#isFile()`
-* `Stats#isDirectory()`
 * `link(srcpath, dstpath, callback)`
 * `linkSync(srcpath, dstpath)`
 * `symlink(srcpath, dstpath, [type], callback)`

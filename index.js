@@ -46,6 +46,22 @@ fs.prototype.readFile = function (filename, opts, cb) {
   });
 };
 
+fs.prototype.stat = function (path, cb) {
+  var stat = new Stats();
+  var m = this._getLevel(path);
+  if (m.level.sublevels[m.file]) {
+    stat._isFile = false;
+    return cb(null, stat);
+  }
+  Store(m.level).head(m.file, { index: true }, function (err) {
+    if (err) {
+      if (err.message == 'range not found') err.code = 'ENOENT';
+      return cb(err);
+    }
+    cb(null, stat);
+  });
+};
+
 fs.prototype._getLevel = function (path) {
   var segs = path.split('/').filter(Boolean);
   var file = segs.pop();
