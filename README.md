@@ -20,6 +20,8 @@ fs.readFile('/etc/passwd', function (err, data) {
 ## How it works
 
 Paths are sublevels, so `/a/b/c` is basically `db.sublevel('a').sublevel('b').get('c')`.
+Streaming access to stored data is provided through
+[level-store](https://github.com/juliangruber/level-store).
 
 ## Implemented
 
