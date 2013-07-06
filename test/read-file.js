@@ -35,3 +35,18 @@ test('non existant, good flag', function (t) {
     t.equal(data.toString(), '');
   });
 });
+
+test('options string', function (t) {
+  t.plan(4);
+  var db = level();
+  var fs = levelFS(db);
+
+  db.put('foo', 'bar', function (err) {
+    t.error(err);
+    fs.readFile('foo', 'utf8', function (err, data) {
+      t.error(err);
+      t.assert(!Buffer.isBuffer(data));
+      t.equal(data, 'bar');
+    });
+  });
+});

@@ -11,7 +11,10 @@ fs.prototype.readFile = function (filename, opts, cb) {
   if (typeof opts == 'function') {
     cb = opts;
     opts = {};
+  } else if (typeof opts == 'string') {
+    opts = { encoding: opts };
   }
+
   var encoding = opts.encoding || 'binary';
   var m = this._getLevel(filename);
   m.level.get(m.file, {
