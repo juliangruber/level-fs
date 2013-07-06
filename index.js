@@ -51,14 +51,18 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
     cb = opts;
     opts = {};
   }
-  if (!cb) cb = function () {};
+  if (typeof opts == 'string') opts = { encoding: opts };
+  if (typeof opts == 'undefined') opts = {};
+
   var m = this._getLevel(filename);
-  var ws = Store(m.level).createWriteStream(m.file);
+  var ws = Store(m.level).createWriteStream(m.file, {
+    encoding: opts.encoding || 'utf8'
+  });
   var called = false;
   function done (err) {
     if (called) return;
     called = true;
-    cb(err);
+    if (cb) cb(err);
   }
   ws.on('close', done);
   ws.on('error', done);
