@@ -53,3 +53,13 @@ test('not found, good flag', function (t) {
       t.ok(true);
     });
 });
+
+test('close event', function (t) {
+  t.plan(1);
+  var db = level();
+  var fs = levelFS(db);
+
+  fs.createReadStream('foo', { flags: 'w' }).on('close', function (err) {
+    t.ok(true);
+  });
+});
