@@ -91,19 +91,25 @@ fs.prototype.stat = function (path, cb) {
 
 fs.prototype.createReadStream = function (path, opts) {
   if (!opts) opts = {};
+
+  var encoding = opts.encoding || 'binary';
+  var flags = opts.flags || 'r';
+
   var m = this._getLevel(path);
-  var rs = Store(m.level).createReadStream(path);
+  var rs = Store(m.level).createReadStream(path, { encoding: 'encoding' });
+
   var read = false;
   rs.once('data', function () {
     read = true;
   });
   rs.on('end', function () {
-    if (!read) {
+    if (!read && flags[0] == 'r') {
       var err = new Error('File not found');
       err.code = 'ENOENT';
       rs.emit('error', err);
     }
   });
+
   return rs;
 };
 

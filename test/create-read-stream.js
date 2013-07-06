@@ -25,17 +25,31 @@ test('simple', function (t) {
   ws.end();
 });
 
-test('not found', function (t) {
+test('not found, bad flag', function (t) {
   t.plan(2);
   var db = level();
   var fs = levelFS(db);
 
-  fs.createReadStream('foo')
+  fs.createReadStream('foo', { flags: 'r' })
     .on('data', function () {
       t.fail();
     })
     .on('error', function (err) {
       t.ok(err);
       t.equal(err.code, 'ENOENT');
+    });
+});
+
+test('not found, good flag', function (t) {
+  t.plan(1);
+  var db = level();
+  var fs = levelFS(db);
+
+  fs.createReadStream('foo', { flags: 'w' })
+    .on('data', function () {
+      t.fail();
+    })
+    .on('end', function (err) {
+      t.ok(true);
     });
 });

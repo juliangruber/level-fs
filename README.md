@@ -27,6 +27,7 @@ Streaming access to stored data is provided through
 
 * `readFile(filename, [options], callback)`
 * `writeFile(filename, data, [options], callback)`
+* `createReadStream(path, [options])`
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
 * `Stats#isSymbolicLink()`
@@ -102,12 +103,12 @@ Streaming access to stored data is provided through
 * `watch(filename, [options], [listener])`
 * `exists(path, callback)`
 * `existsSync(path)`
-* `createReadStream(path, [options])`
 * `createWriteStream(path, [options])`
 * error codes
 * empty but existing files
 * modes
 * byte indexes for offsets
+* file descriptors
 
 ## Installation
 
