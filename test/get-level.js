@@ -18,3 +18,10 @@ test('without sublevel', function (t) {
   t.equal(m.file, 'c');
   t.end();
 });
+
+test('leading slash', function (t) {
+  var m = fs._getLevel('/file.txt');
+  t.equal(m.level, db);
+  t.equal(m.file, 'file.txt');
+  t.end();
+});
