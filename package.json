@@ -1,7 +1,7 @@
 {
   "name": "level-fs",
   "description": "node's fs module with leveldb as backend",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/juliangruber/level-fs.git"
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "tape": "~1.0.4",
-    "level-test": "~1.3.0"
+    "level-test": "git://github.com/juliangruber/level-test.git#no-bind"
   },
   "keywords": [
     "leveldb",
