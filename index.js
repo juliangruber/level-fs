@@ -97,6 +97,11 @@ fs.prototype.unlink = function (path, cb) {
   });
 };
 
+fs.prototype.chown =
+fs.prototype.chmod = function (path, uid, gid, cb) {
+  this.stat(path, cb);
+};
+
 fs.prototype.createReadStream = function (path, opts) {
   if (!opts) opts = {};
 

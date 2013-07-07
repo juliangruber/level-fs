@@ -32,6 +32,8 @@ Streaming access to stored data is provided through
 * `readFile(filename, [options], callback)`
 * `writeFile(filename, data, [options], callback)`
 * `unlink(path, callback)`
+* `chown(path, uid, gid, callback)`
+* `chmod(path, mode, callback)`
 * `createReadStream(path, [options])`
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
@@ -44,19 +46,24 @@ Streaming access to stored data is provided through
 
 ## ToDo
 
+* error codes
+* empty but existing files
+* modes
+* users and groups
+* byte indexes for offsets
+* file descriptors
+* directory support
 * `rename(oldPath, newPath, callback)`
 * `renameSync(oldPath, newPath)`
 * `ftruncate(fd, len, callback)`
 * `ftruncateSync(fd, len)`
 * `truncate(path, len, callback)`
 * `truncateSync(path, len)`
-* `chown(path, uid, gid, callback)`
 * `chownSync(path, uid, gid)`
 * `fchown(fd, uid, gid, callback)`
 * `fchownSync(fd, uid, gid)`
 * `lchown(path, uid, gid, callback)`
 * `lchownSync(path, uid, gid)`
-* `chmod(path, mode, callback)`
 * `chmodSync(path, mode)`
 * `fchmod(fd, mode, callback)`
 * `fchmodSync(fd, mode)`
@@ -108,12 +115,6 @@ Streaming access to stored data is provided through
 * `exists(path, callback)`
 * `existsSync(path)`
 * `createWriteStream(path, [options])`
-* error codes
-* empty but existing files
-* modes
-* byte indexes for offsets
-* file descriptors
-* directory support
 
 ## Installation
 
