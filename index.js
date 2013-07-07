@@ -59,19 +59,7 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
   var flag = opts.flag || 'w';
 
   var m = this._getLevel(filename);
-  var ws = Store(m.level).createWriteStream(m.file, { encoding: encoding });
-
-  var called = false;
-  function done (err) {
-    if (called) return;
-    called = true;
-    if (cb) cb(err);
-  }
-  ws.on('close', done);
-  ws.on('error', done);
-
-  ws.write(data);
-  ws.end();
+  Store(m.level).set(m.file, data, { encoding: encoding }, cb);
 };
 
 fs.prototype.stat = function (path, cb) {
