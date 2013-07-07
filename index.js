@@ -31,8 +31,7 @@ fs.prototype.readFile = function (filename, opts, cb) {
         if (flag[0] != 'r') {
           err = null;
         } else {
-          err.code = 'ENOENT';
-          return cb(err);
+          return cb(enoent(err));
         }
       } else {
         return cb(err);
@@ -74,7 +73,7 @@ fs.prototype.stat = function (path, cb) {
   }
   Store(m.level).head(m.file, { index: true }, function (err) {
     if (err) {
-      if (err.message == 'range not found') err.code = 'ENOENT';
+      if (err.message == 'range not found') enoent(err);
       return cb(err);
     }
     cb(null, stat);
@@ -84,7 +83,7 @@ fs.prototype.stat = function (path, cb) {
 fs.prototype.unlink = function (path, cb) {
   var m = this._getLevel(path);
   Store(m.level).delete(m.file, function (err) {
-    if (err && err.message == 'Stream not found.') err.code = 'ENOENT';
+    if (err && err.message == 'Stream not found.') enoent(err);
     cb(err);
   });
 };
@@ -123,8 +122,7 @@ fs.prototype.createReadStream = function (path, opts) {
   rs.on('end', function () {
     if (!read && flags[0] == 'r') {
       var err = new Error('File not found');
-      err.code = 'ENOENT';
-      rs.emit('error', err);
+      rs.emit('error', enoent(err));
     }
   });
 
@@ -141,4 +139,9 @@ fs.prototype._getLevel = function (path) {
     level: level,
     file: file
   };
+};
+
+function enoent (err) {
+  err.code = 'ENOENT';
+  return err;
 };
