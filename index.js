@@ -23,27 +23,27 @@ fs.prototype.readFile = function (filename, opts, cb) {
   var m = this._getLevel(filename);
   var data = [];
 
-  Store(m.level).createReadStream(m.file, {
+  Store(m.level).get(m.file, {
     valueEncoding: encoding
-  })
-  .on('error', cb)
-  .on('data', function (d) {
-    data.push(d);
-  })
-  .on('end', function () {
-    if (!data.length && flag[0] == 'r') {
-      var err = new Error('file doesn\'t exist');
-      err.code = 'ENOENT';
-      return cb(err);
+  }, function (err, data) {
+    if (err) {
+      if (err.message == 'Stream not found.') {
+        if (flag[0] != 'r') {
+          err = null;
+        } else {
+          err.code = 'ENOENT';
+          return cb(err);
+        }
+      } else {
+        return cb(err);
+      }
     }
-
-    var res;
-    if (encoding == 'binary') {
-      res = Buffer.concat(data);
-    } else {
-      res = data.join('');
+    if (!err && !data) {
+      data = encoding == 'binary'
+        ? new Buffer('')
+        : '';
     }
-    cb(null, res);
+    return cb(err, data);
   });
 };
 
