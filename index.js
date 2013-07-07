@@ -89,6 +89,14 @@ fs.prototype.stat = function (path, cb) {
   });
 };
 
+fs.prototype.unlink = function (path, cb) {
+  var m = this._getLevel(path);
+  Store(m.level).delete(m.file, function (err) {
+    if (err && err.message == 'Stream not found.') err.code = 'ENOENT';
+    cb(err);
+  });
+};
+
 fs.prototype.createReadStream = function (path, opts) {
   if (!opts) opts = {};
 

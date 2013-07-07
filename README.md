@@ -27,6 +27,7 @@ Streaming access to stored data is provided through
 
 * `readFile(filename, [options], callback)`
 * `writeFile(filename, data, [options], callback)`
+* `unlink(path, callback)`
 * `createReadStream(path, [options])`
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
@@ -72,7 +73,6 @@ Streaming access to stored data is provided through
 * `readlinkSync(path)`
 * `realpath(path, [cache], callback)`
 * `realpathSync(path, [cache])`
-* `unlink(path, callback)`
 * `unlinkSync(path)`
 * `rmdir(path, callback)`
 * `rmdirSync(path)`
@@ -109,6 +109,7 @@ Streaming access to stored data is provided through
 * modes
 * byte indexes for offsets
 * file descriptors
+* directory support
 
 ## Installation
 
