@@ -129,6 +129,18 @@ fs.prototype.createReadStream = function (path, opts) {
   return rs;
 };
 
+fs.prototype.createWriteStream = function (path, opts) {
+  if (!opts) opts = {};
+  var flags = opts.flags || 'w';
+  var encoding = opts.encoding || 'binary';
+  var mode = opts.mode || 0666;
+  var m = this._getLevel(path);
+  return Store(m.level).createWriteStream(m.file, {
+    append: flags[0] == 'a',
+    valueEncoding: encoding
+  });
+};
+
 fs.prototype._getLevel = function (path) {
   var segs = path.split('/').filter(Boolean);
   var file = segs.pop();

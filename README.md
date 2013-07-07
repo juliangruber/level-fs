@@ -36,6 +36,7 @@ Streaming access to stored data is provided through
 * `chmod(path, mode, callback)`
 * `mkdir(path, [mode], callback)`
 * `createReadStream(path, [options])`
+* `createWriteStream(path, [options])`
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
 * `Stats#isSymbolicLink()`
@@ -114,7 +115,6 @@ Streaming access to stored data is provided through
 * `watch(filename, [options], [listener])`
 * `exists(path, callback)`
 * `existsSync(path)`
-* `createWriteStream(path, [options])`
 
 ## Installation
 
