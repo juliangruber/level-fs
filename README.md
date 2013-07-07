@@ -123,6 +123,26 @@ With [npm](http://npmjs.org) do
 $ npm install level-fs
 ```
 
+## Tests
+
+Run the tests in node:
+
+```bash
+$ npm test
+```
+
+Run the tests headlessly in [phantomjs](http://phantomjs.org):
+
+```bash
+$ npm run test-phantom
+```
+
+Run the tests in any browser, open `http://localhost:3001` to start:
+
+```bash
+$ npm run test-browser
+```
+
 ## License
 
 Copyright (c) 2013 Julian Gruber &lt;julian@juliangruber.com&gt;

@@ -9,7 +9,9 @@
   "homepage": "https://github.com/juliangruber/level-fs",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "test-phantom": "browserify test/*.js | tape-run",
+    "test-browser": "browserify test/*.js | tape-run 3001"
   },
   "dependencies": {
     "level-sublevel": "~4.7.1",
@@ -17,7 +19,9 @@
   },
   "devDependencies": {
     "tape": "~1.0.4",
-    "level-test": "git://github.com/juliangruber/level-test.git#no-bind"
+    "level-test": "git://github.com/juliangruber/level-test.git#no-bind",
+    "browserify": "~2.23.1",
+    "tape-run": "~0.1.0"
   },
   "keywords": [
     "leveldb",
@@ -46,5 +50,5 @@
       "ipad/6.0",
       "android-browser/4.2"
     ]
-  } 
+  }
 }
