@@ -14,10 +14,9 @@ test('ENOENT', function (t) {
 
 test('file', function (t) {
   t.plan(3);
-  var db = level();
-  var fs = levelFS(db);
+  var fs = levelFS(level());
 
-  db.put('foo', 'bar', function (err) {
+  fs.writeFile('foo', 'bar', function (err) {
     t.error(err);
     fs.stat('foo', function (err, stat) {
       t.error(err);
@@ -28,9 +27,9 @@ test('file', function (t) {
 
 test('directory', function (t) {
   t.plan(3);
-  var db = level();
-  var fs = levelFS(db);
-  db.sublevel('a').put('foo', 'bar', function (err) {
+  var fs = levelFS(level());
+
+  fs.writeFile('a/foo', 'bar', function (err) {
     t.error(err);
     fs.stat('a', function (err, stat) {
       t.error(err);
