@@ -6,6 +6,8 @@ node's [fs module](http://nodejs.org/api/fs.html) with
 
 [![build status](https://secure.travis-ci.org/juliangruber/level-fs.png)](http://travis-ci.org/juliangruber/level-fs)
 
+[![testling badge](https://ci.testling.com/juliangruber/level-fs.png)](https://ci.testling.com/juliangruber/level-fs)
+
 ## Usage
 
 ```js
