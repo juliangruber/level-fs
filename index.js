@@ -59,7 +59,10 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
   var flag = opts.flag || 'w';
 
   var m = this._getLevel(filename);
-  Store(m.level).set(m.file, data, { encoding: encoding }, cb);
+  var method = flag[0] == 'w'
+    ? 'set'
+    : 'append';
+  Store(m.level)[method](m.file, data, { encoding: encoding }, cb);
 };
 
 fs.prototype.stat = function (path, cb) {
