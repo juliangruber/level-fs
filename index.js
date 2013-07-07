@@ -1,6 +1,7 @@
 var SubLevel = require('level-sublevel');
 var Store = require('level-store');
 var Stats = require('./lib/stats');
+var nextTick = require('./lib/next-tick');
 
 module.exports = fs;
 
@@ -97,9 +98,22 @@ fs.prototype.unlink = function (path, cb) {
   });
 };
 
-fs.prototype.chown =
-fs.prototype.chmod = function (path, uid, gid, cb) {
+fs.prototype.chown = function (path, uid, gid, cb) {
   this.stat(path, cb);
+};
+
+fs.prototype.chmod = function (path, mode, cb) {
+  this.stat(path, cb);
+};
+
+fs.prototype.mkdir = function (path, mode, cb) {
+  if (typeof mode == 'function') {
+    cb = mode;
+    mode = 0777;
+  }
+  var m = this._getLevel(path);
+  m.level.sublevel(m.file);
+  nextTick(cb);
 };
 
 fs.prototype.createReadStream = function (path, opts) {

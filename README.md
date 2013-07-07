@@ -34,6 +34,7 @@ Streaming access to stored data is provided through
 * `unlink(path, callback)`
 * `chown(path, uid, gid, callback)`
 * `chmod(path, mode, callback)`
+* `mkdir(path, [mode], callback)`
 * `createReadStream(path, [options])`
 * `Stats#isBlockDevice()`
 * `Stats#isCharacterDevice()`
@@ -87,7 +88,6 @@ Streaming access to stored data is provided through
 * `unlinkSync(path)`
 * `rmdir(path, callback)`
 * `rmdirSync(path)`
-* `mkdir(path, [mode], callback)`
 * `mkdirSync(path, [mode])`
 * `readdir(path, callback)`
 * `readdirSync(path)`
