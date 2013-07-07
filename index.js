@@ -80,6 +80,12 @@ fs.prototype.stat = function (path, cb) {
   });
 };
 
+fs.prototype.exists = function (path, cb) {
+  this.stat(path, function (err, stat) {
+    cb(!!stat);
+  });
+};
+
 fs.prototype.unlink = function (path, cb) {
   var m = this._getLevel(path);
   Store(m.level).delete(m.file, function (err) {

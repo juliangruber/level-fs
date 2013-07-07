@@ -35,6 +35,7 @@ Streaming access to stored data is provided through
 * `chown(path, uid, gid, callback)`
 * `chmod(path, mode, callback)`
 * `mkdir(path, [mode], callback)`
+* `exists(path, callback)`
 * `createReadStream(path, [options])`
 * `createWriteStream(path, [options])`
 * `Stats#isBlockDevice()`
@@ -113,7 +114,6 @@ Streaming access to stored data is provided through
 * `watchFile(filename, [options], listener)`
 * `unwatchFile(filename, [listener])`
 * `watch(filename, [options], [listener])`
-* `exists(path, callback)`
 * `existsSync(path)`
 
 ## Installation
