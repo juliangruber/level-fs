@@ -4,6 +4,8 @@
 node's [fs module](http://nodejs.org/api/fs.html) with
 [leveldb](https://github.com/rvagg/node-levelup) as backend.
 
+[![build status](https://secure.travis-ci.org/juliangruber/level-fs.png)](http://travis-ci.org/juliangruber/level-fs)
+
 ## Usage
 
 ```js
