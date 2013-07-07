@@ -33,5 +33,18 @@
     "email": "mail@juliangruber.com",
     "url": "http://juliangruber.com"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/6..latest",
+      "firefox/14..latest",
+      "chrome/20..latest",
+      "safari/4.0..latest",
+      "opera/11.0..latest",
+      "iphone/6.0",
+      "ipad/6.0",
+      "android-browser/4.2"
+    ]
+  }, 
 }
