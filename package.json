@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "level-sublevel": "~4.7.1",
-    "level-store": "~3.7.0"
+    "level-store": "~3.10.0",
   },
   "devDependencies": {
     "tape": "~1.0.4",
