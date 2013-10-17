@@ -15,13 +15,13 @@
   },
   "dependencies": {
     "level-sublevel": "~4.7.1",
-    "level-store": "~3.10.0",
+    "level-store": "~3.10.0"
   },
   "devDependencies": {
     "tape": "~1.0.4",
-    "level-test": "git://github.com/juliangruber/level-test.git#no-bind",
     "browserify": "~2.23.1",
-    "tape-run": "~0.1.0"
+    "tape-run": "~0.1.0",
+    "memdb": "0.0.1"
   },
   "keywords": [
     "leveldb",

@@ -1,5 +1,5 @@
 var test = require('tape');
-var level = require('level-test')({ mem: true });
+var level = require('memdb');
 var levelFS = require('..');
 
 test('exists', function (t) {

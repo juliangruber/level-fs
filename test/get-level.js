@@ -1,6 +1,6 @@
 var test = require('tape');
-var level = require('level-test')({ mem: true });
-var db = level('read-file');
+var level = require('memdb');
+var db = level();
 var fs = require('..')(db);
 
 test('with sublevel', function (t) {
