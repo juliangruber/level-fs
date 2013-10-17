@@ -112,6 +112,19 @@ fs.prototype.mkdir = function (path, mode, cb) {
   nextTick(cb);
 };
 
+fs.prototype.readdir = function (path, cb) {
+  var files = {};
+  var m = this._getLevel(path.replace(/\/+$/, '') + '/xxx');
+  var ks = m.level.createKeyStream({ start: '', end: '\xff' });
+  ks.on('data', function (filetime) {
+    var file = filetime.replace(/ \d+$/, '');
+    files[file] = true;
+  });
+  ks.on('end', function () {
+    if (cb) cb(null, Object.keys(files));
+  });
+};
+
 fs.prototype.createReadStream = function (path, opts) {
   if (!opts) opts = {};
 
