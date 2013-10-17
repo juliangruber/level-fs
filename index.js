@@ -67,7 +67,7 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
 fs.prototype.stat = function (path, cb) {
   var stat = new Stats();
   var m = this._getLevel(path);
-  if (m.level.sublevels[m.file]) {
+  if (m.level.sublevels[m.file] || path === '/') {
     stat._isFile = false;
     return cb(null, stat);
   }
@@ -109,19 +109,27 @@ fs.prototype.mkdir = function (path, mode, cb) {
   }
   var m = this._getLevel(path);
   m.level.sublevel(m.file);
-  nextTick(cb);
+  if (cb) nextTick(cb);
 };
 
 fs.prototype.readdir = function (path, cb) {
-  var files = {};
-  var m = this._getLevel(path.replace(/\/+$/, '') + '/xxx');
-  var ks = m.level.createKeyStream({ start: '', end: '\xff' });
-  ks.on('data', function (filetime) {
-    var file = filetime.replace(/ \d+$/, '');
-    files[file] = true;
-  });
-  ks.on('end', function () {
-    if (cb) cb(null, Object.keys(files));
+  var self = this;
+  this.stat(path, function (err) {
+    if (err) return cb(err);
+    var m = self._getLevel(path.replace(/\/+$/, '') + '/xxx');
+    var files = {};
+    Object.keys(m.level.sublevels).forEach(function (dir) {
+      files[dir] = true;
+    });
+    
+    var ks = m.level.createKeyStream({ start: '', end: '\xff' });
+    ks.on('data', function (filetime) {
+      var file = filetime.replace(/ \d+$/, '');
+      files[file] = true;
+    });
+    ks.on('end', function () {
+      if (cb) cb(null, Object.keys(files));
+    });
   });
 };
 
@@ -162,7 +170,7 @@ fs.prototype.createWriteStream = function (path, opts) {
 
 fs.prototype._getLevel = function (path) {
   var segs = path.split('/').filter(Boolean);
-  var file = segs.pop();
+  var file = segs.pop() || '';
   var level = segs.reduce(function (level, sub) {
     return level.sublevel(sub);
   }, this.db);
