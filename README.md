@@ -35,6 +35,7 @@ Streaming access to stored data is provided through
 * `chown(path, uid, gid, callback)`
 * `chmod(path, mode, callback)`
 * `mkdir(path, [mode], callback)`
+* `readdir(path, callback)`
 * `exists(path, callback)`
 * `createReadStream(path, [options])`
 * `createWriteStream(path, [options])`
@@ -91,7 +92,6 @@ Streaming access to stored data is provided through
 * `rmdir(path, callback)`
 * `rmdirSync(path)`
 * `mkdirSync(path, [mode])`
-* `readdir(path, callback)`
 * `readdirSync(path)`
 * `close(fd, callback)`
 * `closeSync(fd)`
