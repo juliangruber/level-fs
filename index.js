@@ -124,7 +124,7 @@ fs.prototype.readdir = function (path, cb) {
     
     var ks = m.level.createKeyStream({ start: '', end: '\xff' });
     ks.on('data', function (filetime) {
-      var file = filetime.replace(/ \d+$/, '');
+      var file = filetime.replace(/ \d+(\.d+)?$/, '');
       files[file] = true;
     });
     ks.on('end', function () {
