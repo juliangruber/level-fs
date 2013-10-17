@@ -119,7 +119,7 @@ fs.prototype.createReadStream = function (path, opts) {
   var flags = opts.flags || 'r';
 
   var m = this._getLevel(path);
-  var rs = Store(m.level).createReadStream(path, { encoding: 'encoding' });
+  var rs = Store(m.level).createReadStream(m.file, { encoding: 'encoding' });
 
   var read = false;
   rs.once('data', function () {
