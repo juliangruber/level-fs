@@ -20,16 +20,16 @@ test('list of files', function (t) {
     }
     else {
       fs.readdir('/home/substack', function (err, files) {
-        t.deepEqual(files.sort(), [ 'a.txt', 'robots.txt' ]);
+        t.deepEqual(files.sort(), [ 'a.txt', 'robots.txt' ], 'files');
       });
       fs.readdir('/home', function (err, files) {
-        t.deepEqual(files.sort(), [ 'substack' ]);
+        t.deepEqual(files.sort(), [ 'substack' ], 'dir');
       });
       fs.readdir('/', function (err, files) {
-        t.deepEqual(files.sort(), [ 'home', 'xyz.txt' ]);
+        t.deepEqual(files.sort(), [ 'home', 'xyz.txt' ], 'dir and files');
       });
       fs.readdir('/whatever', function (err, files) {
-        t.ok(err);
+        t.ok(err, 'not found');
       });
     }
   })();
