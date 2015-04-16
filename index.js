@@ -1,5 +1,6 @@
 var Stats = require('./lib/stats');
 var Blocked = require('level-blocked');
+var defaults = require('levelup-defaults');
 
 module.exports = fs;
 
@@ -8,6 +9,22 @@ function fs (db) {
   this.meta = db;
   this.blocks = Blocked(db, 1024);
 }
+
+fs.prototype._getInode = function(filename, cb){
+  this.meta.get(filename, function(err, inode){
+    if (err) return cb(err);
+    cb(null, JSON.parse(inode.toString()));
+  });
+};
+
+fs.prototype._putInode = function(filename, inode, opts, cb){
+  if (typeof opts == 'function') {
+    cb = opts;
+    opts = {};
+  }
+  var db = opts.batch || this.meta;
+  db.put(filename, JSON.stringify(inode), cb);
+};
 
 fs.prototype.readFile = function (filename, opts, cb) {
   if (typeof opts == 'function') {
@@ -21,22 +38,27 @@ fs.prototype.readFile = function (filename, opts, cb) {
   var flag = opts.flag || 'r';
   var self = this;
 
-  this.meta.get(filename, function(err, inode){
+  this._getInode(filename, function(err, inode){
     if (err && !err.notFound) return cb(err);
     if (err && flag[0] != 'r') {
-      return cb(null, encode(new Buffer(0), encoding));
+      return cb(null, decode(new Buffer(0), encoding));
     }
     if (err) return cb(enoent(err));
 
     self.blocks.read(filename, function(err, data){
       if (err) return cb(err);
-      cb(null, encode(data, encoding));
+      cb(null, decode(data, encoding));
     });
   });
 };
 
-function encode(buf, encoding){
+function decode(buf, encoding){
   if (encoding != 'binary') buf = buf.toString(encoding);
+  return buf;
+}
+
+function encode(buf, encoding){
+  if (!Buffer.isBuffer(buf)) buf = new Buffer(buf, encoding);
   return buf;
 }
 
@@ -52,8 +74,7 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
   var flag = opts.flag || 'w';
   var mode = opts.mode || '666';
   var self = this;
-
-  if (!Buffer.isBuffer(data)) data = new Buffer(data, encoding);
+  data = encode(data, encoding);
 
   if (flag[0] == 'w') {
     var inode = {
@@ -61,10 +82,10 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
       mode: mode
     };
     var batch = this.meta.batch();
-    batch.put(filename, inode);
+    this._putInode(filename, inode, { batch: batch });
     this.blocks.write(filename, data, { batch: batch }, cb);
   } else {
-    this.meta.get(filename, function(err, inode){
+    this._getInode(filename, function(err, inode){
       if (err && !err.notFound) return cb(err);
 
       inode = inode || {};
@@ -74,9 +95,10 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
       inode.mode = mode;
 
       var batch = self.meta.batch();
-      batch.put(filename, inode);
+      self._putInode(filename, inode, { batch: batch });
       self.blocks.write(filename, data, {
-        start: start, batch: batch
+        start: start,
+        batch: batch
       }, cb);
     });
   }
