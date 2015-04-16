@@ -14,14 +14,13 @@
     "test-browser": "browserify test/*.js | tape-run 3001"
   },
   "dependencies": {
-    "level-sublevel": "~4.7.1",
-    "level-store": "~3.10.0"
+    "level-blocked": "^1.1.1"
   },
   "devDependencies": {
-    "tape": "~1.0.4",
     "browserify": "~2.23.1",
-    "tape-run": "~0.1.0",
-    "memdb": "0.0.1"
+    "memdb": "^0.2.0",
+    "tape": "~1.0.4",
+    "tape-run": "~0.1.0"
   },
   "keywords": [
     "leveldb",

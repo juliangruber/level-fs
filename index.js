@@ -1,13 +1,12 @@
-var SubLevel = require('level-sublevel');
-var Store = require('level-store');
 var Stats = require('./lib/stats');
-var nextTick = require('./lib/next-tick');
+var Blocked = require('level-blocked');
 
 module.exports = fs;
 
 function fs (db) {
   if (!(this instanceof fs)) return new fs(db);
-  this.db = SubLevel(db);
+  this.meta = db;
+  this.blocks = Blocked(db, 1024);
 }
 
 fs.prototype.readFile = function (filename, opts, cb) {
@@ -20,31 +19,26 @@ fs.prototype.readFile = function (filename, opts, cb) {
 
   var encoding = opts.encoding || 'binary';
   var flag = opts.flag || 'r';
-  var m = this._getLevel(filename);
-  var data = [];
+  var self = this;
 
-  Store(m.level).get(m.file, {
-    valueEncoding: encoding
-  }, function (err, data) {
-    if (err) {
-      if (err.message == 'Stream not found.') {
-        if (flag[0] != 'r') {
-          err = null;
-        } else {
-          return cb(enoent(err));
-        }
-      } else {
-        return cb(err);
-      }
+  this.meta.get(filename, function(err, inode){
+    if (err && !err.notFound) return cb(err);
+    if (err && flag[0] != 'r') {
+      return cb(null, encode(new Buffer(0), encoding));
     }
-    if (!err && !data) {
-      data = encoding == 'binary'
-        ? new Buffer('')
-        : '';
-    }
-    return cb(err, data);
+    if (err) return cb(enoent(err));
+
+    self.blocks.read(filename, function(err, data){
+      if (err) return cb(err);
+      cb(null, encode(data, encoding));
+    });
   });
 };
+
+function encode(buf, encoding){
+  if (encoding != 'binary') buf = buf.toString(encoding);
+  return buf;
+}
 
 fs.prototype.writeFile = function (filename, data, opts, cb) {
   if (typeof opts == 'function') {
@@ -56,12 +50,36 @@ fs.prototype.writeFile = function (filename, data, opts, cb) {
 
   var encoding = opts.encoding || 'utf8';
   var flag = opts.flag || 'w';
+  var mode = opts.mode || '666';
+  var self = this;
 
-  var m = this._getLevel(filename);
-  var method = flag[0] == 'w'
-    ? 'set'
-    : 'append';
-  Store(m.level)[method](m.file, data, { encoding: encoding }, cb);
+  if (!Buffer.isBuffer(data)) data = new Buffer(data, encoding);
+
+  if (flag[0] == 'w') {
+    var inode = {
+      size: data.length,
+      mode: mode
+    };
+    var batch = this.meta.batch();
+    batch.put(filename, inode);
+    this.blocks.write(filename, data, { batch: batch }, cb);
+  } else {
+    this.meta.get(filename, function(err, inode){
+      if (err && !err.notFound) return cb(err);
+
+      inode = inode || {};
+      var start = inode.size || 0;
+
+      inode.size += data.length;
+      inode.mode = mode;
+
+      var batch = self.meta.batch();
+      batch.put(filename, inode);
+      self.blocks.write(filename, data, {
+        start: start, batch: batch
+      }, cb);
+    });
+  }
 };
 
 fs.prototype.stat = function (path, cb) {
