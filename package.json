@@ -14,7 +14,7 @@
     "test-browser": "browserify test/*.js | tape-run 3001"
   },
   "dependencies": {
-    "level-blocked": "^1.1.1"
+    "level-blocked": "^1.1.2"
   },
   "devDependencies": {
     "browserify": "~2.23.1",
